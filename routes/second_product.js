@@ -30,13 +30,13 @@ const filefilter = (req, file, cb) => {
 const upload = multer({ storage: storage, fileFilter: filefilter });
 // upload.single("image")
 //post allqueries
-router.post("/", auth,upload.single("image"), async (req, res) => {
+router.post("/", auth, upload.single("image"), async (req, res) => {
   // var id = "";
   console.log(req.body);
   var date = new Date();
   var postedDate =
     date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-  
+
   try {
     let data = req.body;
 
@@ -57,6 +57,44 @@ router.post("/", auth,upload.single("image"), async (req, res) => {
         data.location,
         postedDate,
         data.user_id,
+      ],
+      (err, rows, fields) => {
+        if (!err) {
+          return res.status(200).json({
+            status: "ok",
+            data: data,
+          });
+        } else console.log(err);
+      }
+    );
+  } catch (err) {
+    res.json({
+      message: err,
+    });
+  }
+});
+
+router.patch("/", auth, async (req, res) => {
+  console.log(req.body);
+
+  try {
+    let data = req.body;
+
+    var sql =
+      "UPDATE secondhand_product SET title =?,description  = ?,category =?,price =?,used_duration    =?,contact_number    =?,email    =?,location     =? WHERE user_id=? AND shp_id=? ";
+    mysqlconnection.query(
+      sql,
+      [
+        data.title,
+        data.description,
+        data.category,
+        data.price,
+        data.used_duration,
+        data.contact_number,
+        data.email,
+        data.location,
+        data.user_id,
+        data.shp_id,
       ],
       (err, rows, fields) => {
         if (!err) {

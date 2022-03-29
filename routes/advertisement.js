@@ -25,12 +25,14 @@ const storage = multer.diskStorage({
       cb(null, false);
     }
   };
+
   
   const upload = multer({ storage: storage, fileFilter: filefilter });
 
   router.post("/", upload.single("image"),async (req, res) => {
     // var id = "";
-    console.log(req.body);
+
+    console.log(req.file.path);
     console.log("hello");
     var date = new Date();
     var postedDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
