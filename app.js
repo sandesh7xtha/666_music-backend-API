@@ -31,22 +31,20 @@ const report_Router = require("./routes/report");
 const add_to_cart_Router = require("./routes/add_to_cart");
 const comments_Router = require("./routes/comments");
 const advertisement_Router = require("./routes/advertisement");
-
+const payment_Router = require("./routes/payment");
 
 //use all routes
 app.use("/secondProduct", second_product_router);
-app.use("/user",user_Router );
+app.use("/user", user_Router);
 app.use("/shopping", shopping_Router);
 app.use("/news", news_Router);
 app.use("/report", report_Router);
 app.use("/addToCart", add_to_cart_Router);
 app.use("/comments", comments_Router);
 app.use("/advertisements", advertisement_Router);
-
-
+app.use("/payment", payment_Router);
 
 app.listen(PORT, () => {
-    console.log("Server start at port : " + PORT);
-    //   console.log(dbConfig);
-  });
-  
+  console.log("Server start at port : " + PORT);
+  //   console.log(dbConfig);
+});

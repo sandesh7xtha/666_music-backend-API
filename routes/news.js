@@ -67,6 +67,40 @@ router.post("/", upload.single("image"),async (req, res) => {
     }
   });
 
+  router.patch("/", async (req, res) => {
+    // var id = "";
+      // console.log("http://" + req.headers.host + "/" + req.file.path);
+    try {
+      let data = req.body;
+  
+          var sql = "UPDATE news SET title =?,description  = ? WHERE new_id=? ";
+          mysqlconnection.query(
+            sql,
+            [
+              data.title,
+              // "http://" + req.headers.host + "/" + req.file.path,
+              data.description,
+
+              data.new_id,
+            ],
+            (err, rows, fields) => {
+              if (!err) {
+                return res.status(200).json({
+                  status: "ok",
+                  data: data,
+                });
+              } else console.log(err);
+            }
+          );
+       
+      
+    } catch (err) {
+      res.json({
+        message: err,
+      });
+    }
+  });
+
   
   router.get("/", async (req, res) => {
     try {
