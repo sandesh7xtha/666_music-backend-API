@@ -46,4 +46,33 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.post("/history", async (req, res) => {
+  // var id = "";
+  console.log(req.body);
+
+  var date = new Date();
+  // console.log("http://" + req.headers.host + "/" + req.file.path);
+  try {
+    let data = req.body;
+
+    var sql = "INSERT INTO history SET payment_id =?,sp_id =?";
+    mysqlconnection.query(
+      sql,
+      [data.payment_id, data.sp_id],
+      (err, rows, fields) => {
+        if (!err) {
+          return res.status(200).json({
+            status: "ok",
+            data: data,
+          });
+        } else console.log(err);
+      }
+    );
+  } catch (err) {
+    res.json({
+      message: err,
+    });
+  }
+});
+
 module.exports = router;
