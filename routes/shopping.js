@@ -42,7 +42,7 @@ router.post("/", upload.single("image"), async (req, res) => {
     let data = req.body;
 
     var sql =
-      "INSERT INTO Shop_Product SET title =?, image=?,description  = ?,category =?,price =?,stock=?,date =?";
+      "INSERT INTO Shop_Product SET title =?, image=?,description  = ?,category =?,price =?,stock=?,date =?,discount=?";
     mysqlconnection.query(
       sql,
       [
@@ -53,6 +53,7 @@ router.post("/", upload.single("image"), async (req, res) => {
         data.price,
         data.stock,
         postedDate,
+        data.discount,
       ],
       (err, rows, fields) => {
         if (!err) {
