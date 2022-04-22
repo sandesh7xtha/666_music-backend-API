@@ -237,4 +237,30 @@ router.delete("/DeleteProduct/:id", async (req, res) => {
   }
 });
 
+router.patch("/updateStockAfterPurchase", async (req, res) => {
+  // var id = "";
+  // console.log("http://" + req.headers.host + "/" + req.file.path);
+  try {
+    let data = req.body;
+
+    var sql = "UPDATE Shop_Product SET stock=?  WHERE sp_id=? ";
+    mysqlconnection.query(
+      sql,
+      [data.updateStock, data.sp_id],
+      (err, rows, fields) => {
+        if (!err) {
+          return res.status(200).json({
+            status: "ok",
+            data: data,
+          });
+        } else console.log(err);
+      }
+    );
+  } catch (err) {
+    res.json({
+      message: err,
+    });
+  }
+});
+
 module.exports = router;

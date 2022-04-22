@@ -5,11 +5,11 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const SECRET_KEY = "This is secret Key asdfg";
 const SALT_ROUND = 10;
-const mysqlconnection = require("../database/db")
+const mysqlconnection = require("../database/db");
 
 //add user
 router.post("/signup", async (req, res) => {
-    console.log(req.body)
+  console.log(req.body);
   let { name, email, password, conformpassword } = req.body;
   console.log(req.body);
   try {
@@ -122,7 +122,7 @@ router.post("/login", async (req, res) => {
               email,
               name,
             },
-            SECRET_KEY,
+            SECRET_KEY
             // { expiresIn: "10h" }
           );
           res.status(200).json({
@@ -131,7 +131,6 @@ router.post("/login", async (req, res) => {
             id,
             // date,
             // hour,
-           
           });
         }
         return;
@@ -144,6 +143,68 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.post("/adminLogin", async (req, res) => {
+  let { email, password } = req.body;
+  email = email.toLowerCase();
+  let currentuser = "";
+
+  try {
+    var sql = "SELECT * FROM user WHERE email = ?";
+    await mysqlconnection.query(sql, email, (err, result) => {
+      console.log(result.length);
+      if (result.length == 0) {
+        return res.status(400).send({
+          message: "Invalid Email !",
+        });
+      }
+      if (!err) {
+        if (result.length > 0) {
+          currentuser = JSON.parse(JSON.stringify(result));
+
+          let compairpassword = bcrypt.compareSync(
+            password,
+            currentuser[0].password
+          );
+          // console.log(compairpassword);
+          if (!compairpassword) {
+            res.status(400).send({
+              message: "Invalid Password !",
+            });
+            return;
+          }
+
+          let { id, name } = currentuser[0];
+          // console.log(currentuser[0]);
+          // let date = new Date();
+          // let hour = date.getHours();
+          let expHour = "10";
+          console.log(expHour);
+          let token = jwt.sign(
+            {
+              id,
+              email,
+              name,
+            },
+            SECRET_KEY
+            // { expiresIn: "10h" }
+          );
+          res.status(200).json({
+            token,
+            name,
+            id,
+            // date,
+            // hour,
+          });
+        }
+        return;
+      }
+    });
+  } catch (err) {
+    return res.json({
+      message: err,
+    });
+  }
+});
 //get all user
 router.get("/", async (req, res) => {
   try {
