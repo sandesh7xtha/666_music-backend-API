@@ -125,7 +125,7 @@ router.get("/paymentData/:id", async (req, res) => {
 router.get("/history/:payment_id", async (req, res) => {
   try {
     var sql =
-      "SELECT *,payment.date AS datePayment FROM history join payment on payment.payment_id=history.payment_id join shop_product on shop_product.sp_id=history.sp_id where payment.payment_id=?";
+      "SELECT * ,payment.date AS datePayment FROM history join payment on payment.payment_id=history.payment_id join shop_product on shop_product.sp_id=history.sp_id where payment.payment_id=?";
     const output = mysqlconnection.query(
       sql,
       [req.params.payment_id],

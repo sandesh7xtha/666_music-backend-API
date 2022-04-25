@@ -134,7 +134,8 @@ router.patch("/publish", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    var sql = "SELECT * FROM 	shop_product where visibility='true'";
+    var sql =
+      "SELECT * FROM 	shop_product where visibility='true' AND stock >= 1 ";
     const output = mysqlconnection.query(sql, (err, result) => {
       if (!err) {
         res.status(200).json({
