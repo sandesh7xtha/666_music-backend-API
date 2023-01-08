@@ -12,12 +12,11 @@ Requirement
 
 Setup the project
 
-- git clone gi
-- cd music
 - npm install
 - npm start
-  ``
-  > sql file
+
+> sql file
+
 - go to sql dump file
 - upload file in Xampp to create Database
 - name the database as "666_music"
