@@ -1,0 +1,135 @@
+create database 666_music;
+
+CREATE TABLE User(
+id int not null auto_increment,
+name varchar(255) not null,
+email varchar(255) not null UNIQUE ,
+password varchar(255) not null,
+createdAt varchar(25) not null,
+primary key (id));
+
+CREATE TABLE secondhand_product(
+shp_id int not null auto_increment,
+title varchar(255) not null,
+image varchar(255) not null,
+description LONGTEXT not null,
+category varchar(255) not null,
+price float(100 , 5) not null,
+used_duration varchar(255) not null,
+contact_number varchar(255) not null,
+email varchar(255),
+location varchar(255) not null,
+date varchar(255),
+user_id int,
+primary key (shp_id ),
+FOREIGN KEY (user_id) REFERENCES User(id)
+
+);
+
+CREATE TABLE shop_Product(
+sp_id int not null auto_increment,
+title varchar(255) not null,
+image varchar(255) not null,
+description varchar(255) not null,
+category varchar(255) not null,
+price float(100 , 5) not null,
+stock int,
+date varchar(50),
+visibiity varchar(10) DEFAULT 'true',
+discount int,
+primary key ( sp_id )
+);
+
+CREATE TABLE news(
+new_id int not null auto_increment,
+image varchar(255) not null,
+title varchar(255) not null,
+description varchar(500) not null,
+date varchar(50),
+primary key ( new_id )
+);
+
+CREATE TABLE report(
+re_id int not null auto_increment,
+user_id int not null,
+shp_id int  ,
+message varchar(500),
+date varchar(50),
+primary key ( re_id),
+FOREIGN KEY ( user_id ) REFERENCES User( id ),
+FOREIGN KEY ( shp_id ) REFERENCES secondhand_product ( shp_id )
+);
+
+
+
+CREATE TABLE add_to_cart(
+user_id int not null,
+sp_id int  not null,
+quantity int  not null,
+primary key ( user_id , sp_id  )
+FOREIGN KEY ( user_id ) REFERENCES User( id ),
+FOREIGN KEY ( sp_id ) REFERENCES Shop_Product( sp_id )
+);
+
+CREATE TABLE comment_SHP(
+cmt_id int not null auto_increment,
+message varchar(500) not null,
+user_id int not null,
+shp_id int ,
+date varchar(50),
+primary key ( cmt_id ),
+FOREIGN KEY ( user_id ) REFERENCES User( id ),
+FOREIGN KEY ( shp_id ) REFERENCES secondhand_product( shp_id )
+);
+
+CREATE TABLE comment_SP(
+cmt_id int not null auto_increment,
+message varchar(500) not null,
+user_id int not null,
+sp_id int ,
+date varchar(50),
+primary key ( cmt_id ),
+FOREIGN KEY ( user_id ) REFERENCES User( id ),
+FOREIGN KEY ( sp_id ) REFERENCES Shop_Product( sp_id )
+);
+
+
+CREATE TABLE advertisement(
+adv_id int not null auto_increment,
+image varchar(255) not null,
+title varchar(255) not null,
+description varchar(500) not null,
+date varchar(50),
+sponser varchar(50) DEFAULT 'sponsored',
+primary key ( adv_id )
+);
+
+
+
+
+CREATE TABLE payment(
+payment_id varchar(255) not null ,
+fullName varchar(255) not null,
+address varchar(255) not null,
+contactNumber int not null,
+city varchar(255) not null,
+province varchar(255) not null,
+zip varchar(255) not null,
+totalAmount int not null,
+date varchar(255) not null,
+user_id int not null ,
+primary key ( payment_id ),
+FOREIGN KEY ( user_id ) REFERENCES User( id )
+);
+
+
+CREATE TABLE history(
+payment_id varchar(255) not null ,
+sp_id int not null ,
+primary key ( payment_id ,sp_id ),
+FOREIGN KEY ( sp_id ) REFERENCES shop_product( sp_id ),
+FOREIGN KEY ( payment_id ) REFERENCES payment( payment_id )
+);
+
+
+
